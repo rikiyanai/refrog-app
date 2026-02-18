@@ -2,14 +2,14 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getRandomQuote, getQuotesByTimeOfDay, TimeOfDay, Quote, QUOTES } from '../data/quotes';
+import { getRandomQuote, TimeOfDay, Quote, QUOTES } from '../data/quotes';
 
 const STORAGE_KEY = '@refrog:shown_quotes';
 const NOTIFICATION_KEY = '@refrog:last_scheduled_date';
 
 interface NotificationConfig {
-  startTime: string; // HH:MM format
-  endTime: string; // HH:MM format
+  startTime: string;
+  endTime: string;
   notificationsPerDay: number;
 }
 
@@ -30,6 +30,11 @@ Notifications.setNotificationHandler({
 });
 
 export async function requestNotificationPermissions(): Promise<boolean> {
+  if (Platform.OS === 'web') {
+    console.log('Notifications not supported on web');
+    return false;
+  }
+  
   if (!Device.isDevice) {
     return false;
   }
@@ -112,6 +117,12 @@ function getRandomTimeBetween(start: string, end: string): Date {
 export async function scheduleDailyNotifications(
   config: NotificationConfig = DEFAULT_CONFIG
 ): Promise<void> {
+  if (Platform.OS === 'web') {
+    console.log('Notifications not supported on web - saving preference only');
+    await AsyncStorage.setItem(NOTIFICATION_KEY, new Date().toDateString());
+    return;
+  }
+
   const hasPermission = await requestNotificationPermissions();
   if (!hasPermission) {
     console.warn('Notification permissions not granted');
@@ -144,7 +155,7 @@ export async function scheduleDailyNotifications(
 
         await Notifications.scheduleNotificationAsync({
           content: {
-            title: 'ReFrog 🐸',
+            title: 'ReFrog',
             body: `"${quote.text.substring(0, 100)}${quote.text.length > 100 ? '...' : ''}"`,
             data: { quoteId: quote.id },
             sound: true,
@@ -168,10 +179,17 @@ export async function scheduleDailyNotifications(
 }
 
 export async function cancelAllNotifications(): Promise<void> {
+  if (Platform.OS === 'web') {
+    console.log('Notifications not supported on web');
+    return;
+  }
   await Notifications.cancelAllScheduledNotificationsAsync();
 }
 
 export async function getNextScheduledNotification(): Promise<any> {
+  if (Platform.OS === 'web') {
+    return null;
+  }
   const notifications = await Notifications.getAllScheduledNotificationsAsync();
   return notifications.length > 0 ? notifications[0] : null;
 }
