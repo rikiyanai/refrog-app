@@ -37,6 +37,11 @@ jobs:
       - name: Build
         run: npx expo export --platform web --output-dir dist
 
+      - name: Fix paths for subdirectory
+        run: |
+          sed -i 's|src="/|src="/refrog-app/|g' dist/index.html
+          sed -i 's|href="/favicon|href="/refrog-app/favicon|g' dist/index.html
+
       - name: Add redirects
         run: echo '/* /index.html 200' > dist/_redirects
 
