@@ -23,9 +23,17 @@ jobs:
       - name: Prepare static Pages artifact
         run: |
           test -f dist/index.html
+          test -f Xanh_Mono/XanhMono-Regular.ttf
+          test -f Xanh_Mono/XanhMono-Italic.ttf
           mkdir -p dist/refrog-app
+          mkdir -p dist/fonts
+          mkdir -p dist/refrog-app/fonts
           cp dist/index.html dist/refrog-app/index.html
           cp dist/index.html dist/404.html
+          cp Xanh_Mono/XanhMono-Regular.ttf dist/fonts/XanhMono-Regular.ttf
+          cp Xanh_Mono/XanhMono-Italic.ttf dist/fonts/XanhMono-Italic.ttf
+          cp Xanh_Mono/XanhMono-Regular.ttf dist/refrog-app/fonts/XanhMono-Regular.ttf
+          cp Xanh_Mono/XanhMono-Italic.ttf dist/refrog-app/fonts/XanhMono-Italic.ttf
           printf "rikiworld.com\n" > dist/CNAME
           touch dist/.nojekyll
 
