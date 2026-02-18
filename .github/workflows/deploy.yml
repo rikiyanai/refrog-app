@@ -35,7 +35,10 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build
-        run: npx expo export --platform web
+        run: npx expo export --platform web --output-dir dist
+
+      - name: Add redirects
+        run: echo '/* /index.html 200' > dist/_redirects
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
