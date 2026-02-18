@@ -37,6 +37,12 @@ jobs:
       - name: Build
         run: npx expo export --platform web --output-dir dist
 
+      - name: Fix paths for refrog-app subdirectory
+        run: |
+          sed -i 's|src="/_expo/|src="/refrog-app/_expo/|g' dist/index.html
+          sed -i 's|src="/assets/|src="/refrog-app/assets/|g' dist/index.html
+          sed -i 's|href="/favicon|href="/refrog-app/favicon|g' dist/index.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
