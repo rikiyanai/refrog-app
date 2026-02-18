@@ -68,6 +68,19 @@ Add a "Book Shelf" accordion that lets users:
 - Import CSV lists of books
 - Suggest books/quotes via email
 
+---
+
+## v2+ Feature: Dislike Button
+
+### Overview
+Add a dislike button to filter out unwanted quotes.
+
+### Implementation
+- Add [DISLIKE] button next to heart
+- Store disliked quote IDs in AsyncStorage
+- Filter out disliked quotes from rotation
+- Option to "undo" or reset dislikes in settings
+
 ### Data Structure
 
 ```typescript

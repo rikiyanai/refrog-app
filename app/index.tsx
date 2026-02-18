@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
-import { getRandomQuote, Quote, QuoteCategory } from '../data/quotes';
+import { getRandomQuote, getDeathQuotes, Quote, QuoteCategory } from '../data/quotes';
 import { scheduleDailyNotifications, requestNotificationPermissions, cancelAllNotifications } from '../services/notificationService';
 import { addToFavorites, removeFromFavorites, isFavorite, getFavorites, addCustomQuote, getCustomQuotes, CustomQuote } from '../services/journalService';
 import { useTheme, g, spacing, fontSizes } from './theme';
@@ -77,7 +77,8 @@ export default function AppScreen() {
   }, []);
 
   const loadQuote = () => {
-    const defaultQuote = getRandomQuote();
+    const deathQuotes = getDeathQuotes();
+    const defaultQuote = getRandomQuote(deathQuotes);
     const customAsQuotes: Quote[] = customQuotes.map(cq => ({
       id: cq.id,
       text: cq.text,

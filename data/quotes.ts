@@ -1534,3 +1534,13 @@ export function getQuotesByTimeOfDay(timeOfDay: TimeOfDay): Quote[] {
     quote.timeOfDay === timeOfDay || quote.timeOfDay === 'any'
   );
 }
+
+const DEATH_KEYWORDS = ['death', 'die', 'dead', 'dying', 'mortal', 'mortality', 'grave', 'corpse', 'soul', 'eternal', 'afterlife', 'end of life', 'life after'];
+
+export function getDeathQuotes(): Quote[] {
+  return QUOTES.filter(quote => {
+    const text = quote.text.toLowerCase();
+    const author = quote.author.toLowerCase();
+    return DEATH_KEYWORDS.some(keyword => text.includes(keyword) || author.includes(keyword));
+  });
+}
