@@ -39,3 +39,7 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# external assets
+www-sacred/
+Xanh_Mono.zip
