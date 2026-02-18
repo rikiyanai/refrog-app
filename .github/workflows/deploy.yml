@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -37,13 +37,16 @@ jobs:
       - name: Build
         run: npx expo export --platform web --output-dir dist
 
-      - name: Fix paths for subdirectory
+      - name: Fix paths for refrog-app subdirectory
         run: |
-          sed -i 's|src="/|src="/refrog-app/|g' dist/index.html
+          # Fix all asset paths in index.html
+          sed -i 's|src="/_expo/|src="/refrog-app/_expo/|g' dist/index.html
+          sed -i 's|src="/assets/|src="/refrog-app/assets/|g' dist/index.html
           sed -i 's|href="/favicon|href="/refrog-app/favicon|g' dist/index.html
 
-      - name: Add redirects
-        run: echo '/* /index.html 200' > dist/_redirects
+      - name: Create SPA redirect
+        run: |
+          echo '/* /refrog-app/index.html 200' > dist/_redirects
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

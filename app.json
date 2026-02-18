@@ -27,8 +27,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "bundler": "metro",
-      "basePath": "refrog-app"
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
