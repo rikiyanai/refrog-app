@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReFrog</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Courier New', monospace;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+    .subtitle {
+      text-align: center;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+    .quote-box {
+      border: 1px solid #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .quote {
+      font-style: italic;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .author {
+      text-align: right;
+      opacity: 0.7;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #fff;
+      color: #000;
+      border: 1px solid #fff;
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+    .btn:active {
+      background: #ccc;
+    }
+    .settings {
+      border: 1px solid #fff;
+      padding: 12px;
+      margin-top: 20px;
+    }
+    .settings-header {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+    .settings-content {
+      display: none;
+      padding-top: 12px;
+    }
+    .settings-content.open {
+      display: block;
+    }
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .toggle {
+      padding: 4px 12px;
+      background: #333;
+      border: 1px solid #fff;
+      color: #fff;
+      cursor: pointer;
+    }
+    .toggle.on {
+      background: #fff;
+      color: #000;
+    }
+    .heart {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .nav {
+      display: flex;
+      border: 1px solid #fff;
+      margin-top: 20px;
+    }
+    .nav-btn {
+      flex: 1;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .nav-btn.active {
+      background: #fff;
+      color: #000;
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .input-row input {
+      flex: 1;
+      padding: 8px;
+      background: #111;
+      border: 1px solid #fff;
+      color: #fff;
+      font-family: inherit;
+    }
+    .input-row button {
+      padding: 8px 16px;
+      background: #fff;
+      border: 1px solid #fff;
+      color: #000;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .saved-quote {
+      border: 1px solid #666;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="home-page">
+      <h1>ReFrog</h1>
+      <p class="subtitle">Remember, you will die</p>
+      
+      <div class="quote-box">
+        <p class="quote" id="quote-text">Loading...</p>
+        <p class="author" id="quote-author"></p>
+      </div>
+      
+      <div class="heart" id="heart">♡</div>
+      
+      <button class="btn" id="new-quote">[ NEW QUOTE ]</button>
+      
+      <div class="settings">
+        <div class="settings-header" id="settings-toggle">
+          <span>[ SETTINGS ]</span>
+          <span id="settings-icon">+</span>
+        </div>
+        <div class="settings-content" id="settings-content">
+          <div class="toggle-row">
+            <span>Notifications</span>
+            <button class="toggle" id="notif-toggle">OFF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="journal-page" class="hidden">
+      <h1>Journal</h1>
+      
+      <div class="input-row">
+        <input type="text" id="journal-input" placeholder="Enter quote...">
+        <button id="add-quote">ADD</button>
+      </div>
+      
+      <div id="saved-list"></div>
+    </div>
+    
+    <div class="nav">
+      <button class="nav-btn active" id="nav-home">HOME</button>
+      <button class="nav-btn" id="nav-journal">JOURNAL</button>
+    </div>
+  </div>
+
+  <script>
+    const quotes = [
+      { text: "Death smiles at us all, all a man can do is smile back.", author: "Marcus Aurelius" },
+      { text: "I do not fear death. I had been dead for billions and billions of years before I was born.", author: "Mark Twain" },
+      { text: "To the well-organized mind, death is but the next great adventure.", author: "J.K. Rowling" },
+      { text: "The fear of death follows from the fear of life. A man who lives fully is prepared to die at any time.", author: "Mark Twain" },
+      { text: "It is said that your life flashes before your eyes just before you die. That is true, it's called Life.", author: "Anonymous" },
+      { text: "Cowards die many times before their actual deaths.", author: "Julius Caesar" },
+      { text: "Only the dead have seen the end of war.", author: "Plato" },
+      { text: "Death is not the greatest loss in life. The greatest loss is what dies inside us while we live.", author: "Norman Cousins" },
+      { text: "Life is eternal and love is immortal, and death is only a horizon.", author: "Anonymous" },
+      { text: "Live as if you were to die tomorrow. Learn as if you were to live forever.", author: "Mahatma Gandhi" },
+    ];
+    
+    let currentQuote = null;
+    let isFavorite = false;
+    let customQuotes = [];
+    let favorites = [];
+    
+    function loadQuote() {
+      const allQuotes = [...quotes, ...customQuotes.map(q => ({ text: q.text, author: q.author || 'Anonymous' }))];
+      currentQuote = allQuotes[Math.floor(Math.random() * allQuotes.length)];
+      document.getElementById('quote-text').textContent = '"' + currentQuote.text + '"';
+      document.getElementById('quote-author').textContent = '— ' + currentQuote.author;
+      document.getElementById('heart').textContent = '♡';
+      isFavorite = false;
+    }
+    
+    function toggleFavorite() {
+      isFavorite = !isFavorite;
+      document.getElementById('heart').textContent = isFavorite ? '♥' : '♡';
+    }
+    
+    function showPage(page) {
+      document.getElementById('home-page').classList.toggle('hidden', page !== 'home');
+      document.getElementById('journal-page').classList.toggle('hidden', page !== 'journal');
+      document.getElementById('nav-home').classList.toggle('active', page === 'home');
+      document.getElementById('nav-journal').classList.toggle('active', page === 'journal');
+      if (page === 'journal') renderSaved();
+    }
+    
+    function renderSaved() {
+      const list = document.getElementById('saved-list');
+      const all = [...customQuotes, ...favorites];
+      if (all.length === 0) {
+        list.innerHTML = '<p style="opacity:0.5;text-align:center">No saved quotes</p>';
+      } else {
+        list.innerHTML = all.map(q => '<div class="saved-quote"><p>"' + q.text + '"</p><p style="text-align:right;opacity:0.7">— ' + (q.author || 'Anonymous') + '</p></div>').join('');
+      }
+    }
+    
+    function addCustomQuote() {
+      const input = document.getElementById('journal-input');
+      if (!input.value.trim()) return;
+      customQuotes.push({ text: input.value.trim(), author: '' });
+      input.value = '';
+      renderSaved();
+    }
+    
+    document.getElementById('new-quote').addEventListener('click', loadQuote);
+    document.getElementById('heart').addEventListener('click', toggleFavorite);
+    document.getElementById('settings-toggle').addEventListener('click', function() {
+      const content = document.getElementById('settings-content');
+      const icon = document.getElementById('settings-icon');
+      content.classList.toggle('open');
+      icon.textContent = content.classList.contains('open') ? '-' : '+';
+    });
+    document.getElementById('notif-toggle').addEventListener('click', function() {
+      this.classList.toggle('on');
+      this.textContent = this.classList.contains('on') ? 'ON' : 'OFF';
+    });
+    document.getElementById('nav-home').addEventListener('click', () => showPage('home'));
+    document.getElementById('nav-journal').addEventListener('click', () => showPage('journal'));
+    document.getElementById('add-quote').addEventListener('click', addCustomQuote);
+    
+    loadQuote();
+  </script>
+</body>
+</html>
