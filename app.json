@@ -27,7 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "bundler": "metro",
+      "basePath": "wefrogapp"
     },
     "plugins": [
       "expo-router",
