@@ -1,5 +1,21 @@
 # ReFrog v1 Shipping Plan
 
+## Active Web Patch Plan (February 18, 2026)
+
+Goal: keep GitHub Pages static deployment (`dist/`) while closing missing v1 UX gaps.
+
+1. Restore dedicated **Settings** page in bottom nav.
+Status: implemented in static web app (`dist/index.html`).
+
+2. Implement **Bookshelf** feature for saved quote organization.
+Status: implemented with shelf creation, quote assignment, quote removal, and shelf deletion.
+
+3. Implement **Dislike** feature for quote filtering.
+Status: implemented with persistent disliked IDs, automatic rotation filtering, and reset control in Settings.
+
+4. Keep compatibility with `https://rikiworld.com/refrog-app/`.
+Status: preserved (static artifact flow unchanged; features live in `dist/index.html`).
+
 ## Deployment Options
 
 ### 1. Standalone Mobile App (iOS/Android)

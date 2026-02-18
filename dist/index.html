@@ -7,133 +7,816 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Courier New', monospace;
+      font-family: "Courier New", monospace;
       background: #000;
       color: #fff;
       min-height: 100vh;
       padding: 20px;
     }
-    .container { max-width: 400px; margin: 0 auto; }
-    h1 { font-size: 28px; text-align: center; margin-bottom: 4px; }
-    .subtitle { text-align: center; opacity: 0.7; margin-bottom: 20px; }
-    .quote-box { border: 1px solid #fff; padding: 20px; margin-bottom: 20px; }
-    .quote { font-style: italic; line-height: 1.5; margin-bottom: 12px; }
-    .author { text-align: right; opacity: 0.7; }
-    .btn { width: 100%; padding: 12px; background: #fff; color: #000; border: 1px solid #fff; font-family: inherit; cursor: pointer; margin-bottom: 8px; }
-    .settings { border: 1px solid #fff; padding: 12px; margin-top: 20px; }
-    .settings-header { cursor: pointer; display: flex; justify-content: space-between; }
-    .settings-content { display: none; padding-top: 12px; }
-    .settings-content.open { display: block; }
-    .toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .toggle { padding: 4px 12px; background: #333; border: 1px solid #fff; color: #fff; cursor: pointer; }
-    .toggle.on { background: #fff; color: #000; }
-    .heart { text-align: center; margin: 20px 0; font-size: 24px; cursor: pointer; }
-    .nav { display: flex; border: 1px solid #fff; margin-top: 20px; }
-    .nav-btn { flex: 1; padding: 12px; background: transparent; border: none; color: #fff; font-family: inherit; cursor: pointer; }
-    .nav-btn.active { background: #fff; color: #000; }
-    .input-row { display: flex; gap: 8px; margin-bottom: 12px; }
-    .input-row input { flex: 1; padding: 8px; background: #111; border: 1px solid #fff; color: #fff; font-family: inherit; }
-    .input-row button { padding: 8px 16px; background: #fff; border: 1px solid #fff; color: #000; cursor: pointer; font-family: inherit; }
-    .saved-quote { border: 1px solid #666; padding: 12px; margin-bottom: 8px; }
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      border: 1px solid #666;
+      background: #000;
+    }
+    .header {
+      border-bottom: 1px solid #666;
+      padding: 16px;
+      text-align: center;
+    }
+    .title { font-size: 28px; margin-bottom: 4px; }
+    .subtitle { opacity: 0.7; font-size: 14px; }
+    .page { padding: 16px; min-height: 520px; }
     .hidden { display: none; }
+    .card {
+      border: 1px solid #666;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: #0b0b0b;
+    }
+    .quote {
+      line-height: 1.5;
+      font-style: italic;
+      margin-bottom: 12px;
+    }
+    .author {
+      text-align: right;
+      opacity: 0.7;
+      font-size: 14px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #fff;
+      color: #000;
+      border: 1px solid #fff;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn.secondary {
+      background: transparent;
+      color: #fff;
+      border-color: #666;
+      font-weight: normal;
+    }
+    .btn.danger {
+      background: #250000;
+      color: #ff7a7a;
+      border-color: #a33;
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .icon-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #666;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .icon-btn.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+    .icon-btn.dislike.active {
+      background: #300;
+      color: #ff8080;
+      border-color: #c44;
+    }
+    input, select {
+      width: 100%;
+      background: #111;
+      color: #fff;
+      border: 1px solid #666;
+      padding: 10px;
+      font-family: inherit;
+    }
+    .section-title {
+      margin: 8px 0;
+      opacity: 0.8;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+    .saved-item {
+      border: 1px solid #444;
+      padding: 12px;
+      margin-bottom: 8px;
+      background: #0d0d0d;
+    }
+    .saved-item p:first-child {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .saved-item .meta {
+      font-size: 12px;
+      opacity: 0.65;
+    }
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .pill {
+      flex: 1;
+      border: 1px solid #666;
+      padding: 8px 10px;
+      text-align: center;
+      cursor: pointer;
+      background: #111;
+      color: #fff;
+      font-size: 13px;
+    }
+    .pill.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      font-weight: bold;
+    }
+    .shelf {
+      border: 1px solid #444;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #0d0d0d;
+    }
+    .shelf-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .shelf-title {
+      font-weight: bold;
+      max-width: 75%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .mini-btn {
+      border: 1px solid #666;
+      background: #111;
+      color: #fff;
+      padding: 6px 10px;
+      font-family: inherit;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .mini-btn.danger {
+      border-color: #a33;
+      color: #ff8a8a;
+      background: #220000;
+    }
+    .hint {
+      font-size: 12px;
+      opacity: 0.6;
+      margin-top: 6px;
+    }
+    .count-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .count-box {
+      border: 1px solid #444;
+      padding: 10px;
+      font-size: 13px;
+      background: #0d0d0d;
+    }
+    .nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid #666;
+    }
+    .nav-btn {
+      padding: 12px 8px;
+      border: none;
+      border-right: 1px solid #666;
+      background: #111;
+      color: #fff;
+      font-family: inherit;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .nav-btn:last-child { border-right: none; }
+    .nav-btn.active {
+      background: #fff;
+      color: #000;
+      font-weight: bold;
+    }
+    @media (max-width: 480px) {
+      body { padding: 8px; }
+      .page { min-height: 500px; }
+      .title { font-size: 24px; }
+      .nav-btn { font-size: 11px; padding: 10px 4px; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div id="home-page">
-      <h1>ReFrog</h1>
+    <div class="header">
+      <h1 class="title">ReFrog</h1>
       <p class="subtitle">Remember, you will die</p>
-      <div class="quote-box">
+    </div>
+
+    <div id="home-page" class="page">
+      <div class="card">
         <p class="quote" id="quote-text"></p>
         <p class="author" id="quote-author"></p>
       </div>
-      <div class="heart" id="heart">♡</div>
-      <button class="btn" id="new-quote">[ NEW QUOTE ]</button>
-      <div class="settings">
-        <div class="settings-header" id="settings-toggle">
-          <span>[ SETTINGS ]</span>
-          <span id="settings-icon">+</span>
+
+      <div class="row">
+        <button class="icon-btn" id="favorite-btn" title="Favorite">♡</button>
+        <button class="icon-btn dislike" id="dislike-btn" title="Dislike">✕</button>
+      </div>
+
+      <button class="btn" id="new-quote-btn">[ NEW QUOTE ]</button>
+
+      <div class="card">
+        <p class="section-title">[ ADD CURRENT QUOTE TO BOOKSHELF ]</p>
+        <div class="row">
+          <select id="shelf-select"></select>
+          <button class="mini-btn" id="add-to-shelf-btn">ADD</button>
         </div>
-        <div class="settings-content" id="settings-content">
-          <div class="toggle-row">
-            <span>Notifications</span>
-            <button class="toggle" id="notif-toggle">OFF</button>
-          </div>
-        </div>
+        <p class="hint" id="shelf-hint"></p>
       </div>
     </div>
-    <div id="journal-page" class="hidden">
-      <h1>Journal</h1>
-      <div class="input-row">
-        <input type="text" id="journal-input" placeholder="Enter quote...">
-        <button id="add-quote">ADD</button>
+
+    <div id="journal-page" class="page hidden">
+      <div class="card">
+        <p class="section-title">[ ADD CUSTOM QUOTE ]</p>
+        <div class="col">
+          <input id="journal-input-text" type="text" placeholder="Enter quote..." />
+          <input id="journal-input-author" type="text" placeholder="Author (optional)" />
+          <button class="btn" id="add-quote-btn">ADD TO ROTATION</button>
+        </div>
       </div>
+      <p class="section-title">[ SAVED QUOTES ]</p>
       <div id="saved-list"></div>
     </div>
+
+    <div id="bookshelf-page" class="page hidden">
+      <div class="card">
+        <p class="section-title">[ CREATE SHELF ]</p>
+        <div class="row">
+          <input id="shelf-name-input" type="text" placeholder="Shelf name (e.g. Stoicism)" />
+          <button class="mini-btn" id="create-shelf-btn">CREATE</button>
+        </div>
+      </div>
+      <p class="section-title">[ YOUR SHELVES ]</p>
+      <div id="bookshelf-list"></div>
+    </div>
+
+    <div id="settings-page" class="page hidden">
+      <div class="card">
+        <p class="section-title">[ SETTINGS ]</p>
+        <div class="row" style="justify-content: space-between;">
+          <span>Notifications</span>
+          <button class="mini-btn" id="notif-toggle-btn">OFF</button>
+        </div>
+        <p class="hint">Web build stores preference only (no push scheduling).</p>
+
+        <p class="section-title">Frequency</p>
+        <div class="pill-row">
+          <button class="pill frequency-pill" data-value="3">3x</button>
+          <button class="pill frequency-pill" data-value="4">4x</button>
+          <button class="pill frequency-pill" data-value="5">5x</button>
+        </div>
+
+        <p class="section-title">Time Window</p>
+        <div class="pill-row">
+          <button class="pill time-pill" data-value="8-8">8-8</button>
+          <button class="pill time-pill" data-value="9-9">9-9</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="section-title">[ DATA ]</p>
+        <div class="count-grid" id="data-counts"></div>
+        <button class="btn secondary" id="reset-dislikes-btn">RESET DISLIKED QUOTES</button>
+        <button class="btn danger" id="reset-all-btn">RESET ALL LOCAL DATA</button>
+      </div>
+    </div>
+
     <div class="nav">
       <button class="nav-btn active" id="nav-home">HOME</button>
       <button class="nav-btn" id="nav-journal">JOURNAL</button>
+      <button class="nav-btn" id="nav-bookshelf">BOOKSHELF</button>
+      <button class="nav-btn" id="nav-settings">SETTINGS</button>
     </div>
   </div>
+
   <script>
-    const quotes = [
-      { text: "Death smiles at us all, all a man can do is smile back.", author: "Marcus Aurelius" },
-      { text: "I do not fear death. I had been dead for billions of years before I was born.", author: "Mark Twain" },
-      { text: "To the well-organized mind, death is but the next great adventure.", author: "J.K. Rowling" },
-      { text: "The fear of death follows from the fear of life.", author: "Mark Twain" },
-      { text: "Life is for the living. Death is for the dead.", author: "Anonymous" },
-      { text: "Cowards die many times before their actual deaths.", author: "Julius Caesar" },
-      { text: "Only the dead have seen the end of war.", author: "Plato" },
-      { text: "Death is not the greatest loss in life.", author: "Norman Cousins" },
-      { text: "Live as if you were to die tomorrow.", author: "Mahatma Gandhi" },
-      { text: "Life is eternal; love is immortal; death is only a horizon.", author: "Anonymous" },
+    const STORAGE_KEYS = {
+      customQuotes: "refrog_custom_quotes_v1",
+      favorites: "refrog_favorites_v1",
+      dislikedIds: "refrog_disliked_ids_v1",
+      shelves: "refrog_shelves_v1",
+      settings: "refrog_settings_v1"
+    };
+
+    const BASE_QUOTES = [
+      { id: "base-1", text: "Death smiles at us all, all a man can do is smile back.", author: "Marcus Aurelius" },
+      { id: "base-2", text: "I do not fear death. I had been dead for billions of years before I was born.", author: "Mark Twain" },
+      { id: "base-3", text: "To the well-organized mind, death is but the next great adventure.", author: "J.K. Rowling" },
+      { id: "base-4", text: "The fear of death follows from the fear of life.", author: "Mark Twain" },
+      { id: "base-5", text: "Life is for the living. Death is for the dead.", author: "Anonymous" },
+      { id: "base-6", text: "Cowards die many times before their actual deaths.", author: "Julius Caesar" },
+      { id: "base-7", text: "Only the dead have seen the end of war.", author: "Plato" },
+      { id: "base-8", text: "Death is not the greatest loss in life.", author: "Norman Cousins" },
+      { id: "base-9", text: "Live as if you were to die tomorrow.", author: "Mahatma Gandhi" },
+      { id: "base-10", text: "Life is eternal; love is immortal; death is only a horizon.", author: "Anonymous" }
     ];
-    let currentQuote = null, isFavorite = false, customQuotes = [], favorites = [];
+
+    const DEFAULT_SETTINGS = {
+      notificationsEnabled: false,
+      notificationsPerDay: 5,
+      timeWindow: "9-9"
+    };
+
+    const state = {
+      page: "home",
+      currentQuote: null,
+      customQuotes: [],
+      favorites: [],
+      dislikedIds: [],
+      shelves: [],
+      settings: { ...DEFAULT_SETTINGS }
+    };
+
+    function loadFromStorage(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        return JSON.parse(raw);
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function saveToStorage(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function quoteId(quote) {
+      return quote.id;
+    }
+
+    function cloneQuote(quote) {
+      return { id: quote.id, text: quote.text, author: quote.author || "Anonymous" };
+    }
+
+    function getAllQuotes() {
+      const map = new Map();
+      [...BASE_QUOTES, ...state.customQuotes].forEach((quote) => {
+        map.set(quoteId(quote), quote);
+      });
+      return Array.from(map.values());
+    }
+
+    function getAvailableQuotes() {
+      const disliked = new Set(state.dislikedIds);
+      return getAllQuotes().filter((quote) => !disliked.has(quoteId(quote)));
+    }
+
+    function isFavorite(id) {
+      return state.favorites.some((quote) => quoteId(quote) === id);
+    }
+
+    function isDisliked(id) {
+      return state.dislikedIds.includes(id);
+    }
+
+    function saveAllState() {
+      saveToStorage(STORAGE_KEYS.customQuotes, state.customQuotes);
+      saveToStorage(STORAGE_KEYS.favorites, state.favorites);
+      saveToStorage(STORAGE_KEYS.dislikedIds, state.dislikedIds);
+      saveToStorage(STORAGE_KEYS.shelves, state.shelves);
+      saveToStorage(STORAGE_KEYS.settings, state.settings);
+    }
+
+    function setCurrentQuote(quote) {
+      state.currentQuote = quote;
+      renderCurrentQuote();
+    }
+
     function loadQuote() {
-      const all = [...quotes, ...customQuotes.map(q => ({ text: q.text, author: q.author || 'Anonymous' }))];
-      currentQuote = all[Math.floor(Math.random() * all.length)];
-      document.getElementById('quote-text').textContent = '"' + currentQuote.text + '"';
-      document.getElementById('quote-author').textContent = '— ' + currentQuote.author;
-      document.getElementById('heart').textContent = '♡';
-      isFavorite = false;
+      const available = getAvailableQuotes();
+      if (!available.length) {
+        setCurrentQuote(null);
+        return;
+      }
+
+      const currentId = state.currentQuote ? quoteId(state.currentQuote) : null;
+      let pool = available;
+      if (available.length > 1 && currentId) {
+        pool = available.filter((quote) => quoteId(quote) !== currentId);
+      }
+      const nextQuote = pool[Math.floor(Math.random() * pool.length)];
+      setCurrentQuote(nextQuote);
     }
+
+    function renderCurrentQuote() {
+      const quoteTextEl = document.getElementById("quote-text");
+      const quoteAuthorEl = document.getElementById("quote-author");
+      const favoriteBtn = document.getElementById("favorite-btn");
+      const dislikeBtn = document.getElementById("dislike-btn");
+
+      if (!state.currentQuote) {
+        quoteTextEl.textContent = "\"No available quotes. Reset dislikes in Settings.\"";
+        quoteAuthorEl.textContent = "— ReFrog";
+        favoriteBtn.classList.remove("active");
+        dislikeBtn.classList.remove("active");
+        favoriteBtn.disabled = true;
+        dislikeBtn.disabled = true;
+        return;
+      }
+
+      const id = quoteId(state.currentQuote);
+      quoteTextEl.textContent = `"${state.currentQuote.text}"`;
+      quoteAuthorEl.textContent = `— ${state.currentQuote.author || "Anonymous"}`;
+      favoriteBtn.disabled = false;
+      dislikeBtn.disabled = false;
+      favoriteBtn.textContent = isFavorite(id) ? "♥" : "♡";
+      favoriteBtn.classList.toggle("active", isFavorite(id));
+      dislikeBtn.classList.toggle("active", isDisliked(id));
+    }
+
     function toggleFavorite() {
-      isFavorite = !isFavorite;
-      document.getElementById('heart').textContent = isFavorite ? '♥' : '♡';
+      if (!state.currentQuote) return;
+      const id = quoteId(state.currentQuote);
+      const existingIndex = state.favorites.findIndex((quote) => quoteId(quote) === id);
+
+      if (existingIndex >= 0) {
+        state.favorites.splice(existingIndex, 1);
+      } else {
+        state.favorites.unshift(cloneQuote(state.currentQuote));
+        state.dislikedIds = state.dislikedIds.filter((dislikedId) => dislikedId !== id);
+      }
+
+      saveAllState();
+      renderCurrentQuote();
+      renderJournalPage();
+      renderBookshelfPage();
+      renderSettingsPage();
     }
-    function showPage(page) {
-      document.getElementById('home-page').classList.toggle('hidden', page !== 'home');
-      document.getElementById('journal-page').classList.toggle('hidden', page !== 'journal');
-      document.getElementById('nav-home').classList.toggle('active', page === 'home');
-      document.getElementById('nav-journal').classList.toggle('active', page === 'journal');
-      if (page === 'journal') renderSaved();
+
+    function dislikeCurrentQuote() {
+      if (!state.currentQuote) return;
+      const id = quoteId(state.currentQuote);
+
+      if (!state.dislikedIds.includes(id)) {
+        state.dislikedIds.push(id);
+      }
+      state.favorites = state.favorites.filter((quote) => quoteId(quote) !== id);
+      state.shelves = state.shelves.map((shelf) => ({
+        ...shelf,
+        quotes: shelf.quotes.filter((quote) => quoteId(quote) !== id)
+      }));
+
+      saveAllState();
+      renderJournalPage();
+      renderBookshelfPage();
+      renderSettingsPage();
+      loadQuote();
     }
-    function renderSaved() {
-      const list = document.getElementById('saved-list');
-      const all = [...customQuotes, ...favorites];
-      list.innerHTML = all.length ? all.map(q => '<div class="saved-quote"><p>"' + q.text + '"</p><p style="text-align:right;opacity:0.7">— ' + (q.author || 'Anonymous') + '</p></div>').join('') : '<p style="opacity:0.5;text-align:center">No saved quotes</p>';
-    }
+
     function addCustomQuote() {
-      const input = document.getElementById('journal-input');
-      if (!input.value.trim()) return;
-      customQuotes.push({ text: input.value.trim(), author: '' });
-      input.value = '';
-      renderSaved();
+      const textInput = document.getElementById("journal-input-text");
+      const authorInput = document.getElementById("journal-input-author");
+      const text = textInput.value.trim();
+      const author = authorInput.value.trim() || "Anonymous";
+      if (!text) return;
+
+      const quote = {
+        id: `custom-${Date.now()}`,
+        text,
+        author
+      };
+      state.customQuotes.unshift(quote);
+      textInput.value = "";
+      authorInput.value = "";
+      saveAllState();
+      renderJournalPage();
+      renderHomeBookshelfControls();
+      renderSettingsPage();
+      if (!state.currentQuote) {
+        loadQuote();
+      }
     }
-    document.getElementById('new-quote').onclick = loadQuote;
-    document.getElementById('heart').onclick = toggleFavorite;
-    document.getElementById('settings-toggle').onclick = function() {
-      document.getElementById('settings-content').classList.toggle('open');
-      document.getElementById('settings-icon').textContent = document.getElementById('settings-content').classList.contains('open') ? '-' : '+';
-    };
-    document.getElementById('notif-toggle').onclick = function() {
-      this.classList.toggle('on');
-      this.textContent = this.classList.contains('on') ? 'ON' : 'OFF';
-    };
-    document.getElementById('nav-home').onclick = () => showPage('home');
-    document.getElementById('nav-journal').onclick = () => showPage('journal');
-    document.getElementById('add-quote').onclick = addCustomQuote;
-    loadQuote();
+
+    function renderJournalPage() {
+      const savedList = document.getElementById("saved-list");
+      const customItems = state.customQuotes.map((quote) => {
+        return `
+          <div class="saved-item">
+            <p>"${escapeHtml(quote.text)}"</p>
+            <p class="meta">— ${escapeHtml(quote.author || "Anonymous")} · custom</p>
+          </div>
+        `;
+      });
+
+      const favoriteItems = state.favorites.map((quote) => {
+        return `
+          <div class="saved-item">
+            <p>"${escapeHtml(quote.text)}"</p>
+            <p class="meta">— ${escapeHtml(quote.author || "Anonymous")} · favorite</p>
+          </div>
+        `;
+      });
+
+      const allItems = [...customItems, ...favoriteItems];
+      savedList.innerHTML = allItems.length
+        ? allItems.join("")
+        : '<p class="hint">No saved quotes yet. Favorite a quote or add a custom one.</p>';
+    }
+
+    function renderHomeBookshelfControls() {
+      const select = document.getElementById("shelf-select");
+      const button = document.getElementById("add-to-shelf-btn");
+      const hint = document.getElementById("shelf-hint");
+
+      if (!state.shelves.length) {
+        select.innerHTML = '<option value="">No shelves yet</option>';
+        select.disabled = true;
+        button.disabled = true;
+        hint.textContent = "Create a shelf in the Bookshelf tab first.";
+        return;
+      }
+
+      select.disabled = false;
+      button.disabled = false;
+      select.innerHTML = state.shelves
+        .map((shelf) => `<option value="${escapeHtml(shelf.id)}">${escapeHtml(shelf.name)}</option>`)
+        .join("");
+      hint.textContent = "Select a shelf, then add the current quote.";
+    }
+
+    function addCurrentQuoteToShelf() {
+      if (!state.currentQuote) return;
+      if (!state.shelves.length) return;
+      const select = document.getElementById("shelf-select");
+      const shelfId = select.value;
+      const shelf = state.shelves.find((item) => item.id === shelfId);
+      if (!shelf) return;
+
+      const id = quoteId(state.currentQuote);
+      const exists = shelf.quotes.some((quote) => quoteId(quote) === id);
+      if (exists) return;
+
+      shelf.quotes.unshift(cloneQuote(state.currentQuote));
+      saveAllState();
+      renderBookshelfPage();
+      renderSettingsPage();
+    }
+
+    function createShelf() {
+      const input = document.getElementById("shelf-name-input");
+      const name = input.value.trim();
+      if (!name) return;
+
+      const duplicate = state.shelves.some((shelf) => shelf.name.toLowerCase() === name.toLowerCase());
+      if (duplicate) return;
+
+      state.shelves.unshift({
+        id: `shelf-${Date.now()}`,
+        name,
+        quotes: []
+      });
+
+      input.value = "";
+      saveAllState();
+      renderHomeBookshelfControls();
+      renderBookshelfPage();
+      renderSettingsPage();
+    }
+
+    function removeShelfQuote(shelfId, quoteIdToRemove) {
+      const shelf = state.shelves.find((item) => item.id === shelfId);
+      if (!shelf) return;
+      shelf.quotes = shelf.quotes.filter((quote) => quoteId(quote) !== quoteIdToRemove);
+      saveAllState();
+      renderBookshelfPage();
+      renderSettingsPage();
+    }
+
+    function deleteShelf(shelfId) {
+      state.shelves = state.shelves.filter((shelf) => shelf.id !== shelfId);
+      saveAllState();
+      renderHomeBookshelfControls();
+      renderBookshelfPage();
+      renderSettingsPage();
+    }
+
+    function renderBookshelfPage() {
+      const list = document.getElementById("bookshelf-list");
+
+      if (!state.shelves.length) {
+        list.innerHTML = '<p class="hint">No shelves yet. Create one above and start saving quotes.</p>';
+        return;
+      }
+
+      list.innerHTML = state.shelves.map((shelf) => {
+        const quoteItems = shelf.quotes.length
+          ? shelf.quotes.map((quote) => `
+            <div class="saved-item">
+              <p>"${escapeHtml(quote.text)}"</p>
+              <p class="meta">— ${escapeHtml(quote.author || "Anonymous")}</p>
+              <div class="row" style="margin-top: 8px; margin-bottom: 0;">
+                <button
+                  class="mini-btn danger"
+                  data-action="remove-shelf-quote"
+                  data-shelf-id="${escapeHtml(shelf.id)}"
+                  data-quote-id="${escapeHtml(quote.id)}"
+                >
+                  REMOVE
+                </button>
+              </div>
+            </div>
+          `).join("")
+          : '<p class="hint">This shelf is empty.</p>';
+
+        return `
+          <div class="shelf">
+            <div class="shelf-head">
+              <div>
+                <p class="shelf-title">${escapeHtml(shelf.name)}</p>
+                <p class="hint">${shelf.quotes.length} quote(s)</p>
+              </div>
+              <button class="mini-btn danger" data-action="delete-shelf" data-shelf-id="${escapeHtml(shelf.id)}">
+                DELETE
+              </button>
+            </div>
+            ${quoteItems}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderSettingsPage() {
+      const notifButton = document.getElementById("notif-toggle-btn");
+      const dataCounts = document.getElementById("data-counts");
+
+      notifButton.textContent = state.settings.notificationsEnabled ? "ON" : "OFF";
+      notifButton.classList.toggle("active", state.settings.notificationsEnabled);
+
+      document.querySelectorAll(".frequency-pill").forEach((button) => {
+        const value = Number(button.getAttribute("data-value"));
+        button.classList.toggle("active", value === state.settings.notificationsPerDay);
+      });
+
+      document.querySelectorAll(".time-pill").forEach((button) => {
+        const value = button.getAttribute("data-value");
+        button.classList.toggle("active", value === state.settings.timeWindow);
+      });
+
+      dataCounts.innerHTML = `
+        <div class="count-box">Custom quotes: ${state.customQuotes.length}</div>
+        <div class="count-box">Favorites: ${state.favorites.length}</div>
+        <div class="count-box">Disliked: ${state.dislikedIds.length}</div>
+        <div class="count-box">Shelves: ${state.shelves.length}</div>
+      `;
+    }
+
+    function resetDislikes() {
+      state.dislikedIds = [];
+      saveAllState();
+      renderCurrentQuote();
+      renderSettingsPage();
+      if (!state.currentQuote) {
+        loadQuote();
+      }
+    }
+
+    function resetAllData() {
+      const confirmed = confirm("Reset all local ReFrog data? This cannot be undone.");
+      if (!confirmed) return;
+
+      Object.values(STORAGE_KEYS).forEach((key) => localStorage.removeItem(key));
+      state.customQuotes = [];
+      state.favorites = [];
+      state.dislikedIds = [];
+      state.shelves = [];
+      state.settings = { ...DEFAULT_SETTINGS };
+      saveAllState();
+      renderHomeBookshelfControls();
+      renderJournalPage();
+      renderBookshelfPage();
+      renderSettingsPage();
+      loadQuote();
+    }
+
+    function showPage(page) {
+      state.page = page;
+      ["home", "journal", "bookshelf", "settings"].forEach((name) => {
+        const isActive = page === name;
+        document.getElementById(`${name}-page`).classList.toggle("hidden", !isActive);
+        document.getElementById(`nav-${name}`).classList.toggle("active", isActive);
+      });
+    }
+
+    function loadInitialState() {
+      state.customQuotes = loadFromStorage(STORAGE_KEYS.customQuotes, []);
+      state.favorites = loadFromStorage(STORAGE_KEYS.favorites, []);
+      state.dislikedIds = loadFromStorage(STORAGE_KEYS.dislikedIds, []);
+      state.shelves = loadFromStorage(STORAGE_KEYS.shelves, []);
+      state.settings = { ...DEFAULT_SETTINGS, ...loadFromStorage(STORAGE_KEYS.settings, {}) };
+    }
+
+    function bindEvents() {
+      document.getElementById("new-quote-btn").addEventListener("click", loadQuote);
+      document.getElementById("favorite-btn").addEventListener("click", toggleFavorite);
+      document.getElementById("dislike-btn").addEventListener("click", dislikeCurrentQuote);
+      document.getElementById("add-quote-btn").addEventListener("click", addCustomQuote);
+      document.getElementById("create-shelf-btn").addEventListener("click", createShelf);
+      document.getElementById("add-to-shelf-btn").addEventListener("click", addCurrentQuoteToShelf);
+      document.getElementById("reset-dislikes-btn").addEventListener("click", resetDislikes);
+      document.getElementById("reset-all-btn").addEventListener("click", resetAllData);
+
+      document.getElementById("notif-toggle-btn").addEventListener("click", () => {
+        state.settings.notificationsEnabled = !state.settings.notificationsEnabled;
+        saveAllState();
+        renderSettingsPage();
+      });
+
+      document.querySelectorAll(".frequency-pill").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.settings.notificationsPerDay = Number(button.getAttribute("data-value"));
+          saveAllState();
+          renderSettingsPage();
+        });
+      });
+
+      document.querySelectorAll(".time-pill").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.settings.timeWindow = button.getAttribute("data-value");
+          saveAllState();
+          renderSettingsPage();
+        });
+      });
+
+      document.getElementById("bookshelf-list").addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        const action = target.getAttribute("data-action");
+        if (!action) return;
+
+        if (action === "delete-shelf") {
+          deleteShelf(target.getAttribute("data-shelf-id"));
+        }
+
+        if (action === "remove-shelf-quote") {
+          removeShelfQuote(
+            target.getAttribute("data-shelf-id"),
+            target.getAttribute("data-quote-id")
+          );
+        }
+      });
+
+      document.getElementById("nav-home").addEventListener("click", () => showPage("home"));
+      document.getElementById("nav-journal").addEventListener("click", () => showPage("journal"));
+      document.getElementById("nav-bookshelf").addEventListener("click", () => showPage("bookshelf"));
+      document.getElementById("nav-settings").addEventListener("click", () => showPage("settings"));
+    }
+
+    function init() {
+      loadInitialState();
+      bindEvents();
+      renderHomeBookshelfControls();
+      renderJournalPage();
+      renderBookshelfPage();
+      renderSettingsPage();
+      loadQuote();
+      showPage("home");
+    }
+
+    init();
   </script>
 </body>
 </html>
