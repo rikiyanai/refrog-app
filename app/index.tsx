@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 import { getRandomQuote, getDeathQuotes, Quote, QuoteCategory } from '../data/quotes';
-import { scheduleDailyNotifications, requestNotificationPermissions, cancelAllNotifications } from '../services/notificationService';
+import { scheduleDailyNotifications, requestNotificationPermissions, cancelAllNotifications, saveNotificationSettings, loadNotificationSettings } from '../services/notificationService';
 import { addToFavorites, removeFromFavorites, isFavorite, getFavorites, addCustomQuote, getCustomQuotes, CustomQuote } from '../services/journalService';
 import { useTheme, g, spacing, fontSizes } from './theme';
 
@@ -74,7 +74,18 @@ export default function AppScreen() {
     loadQuote();
     loadCustomQuotes();
     loadFavorites();
+    loadPersistedNotificationSettings();
   }, []);
+
+  const loadPersistedNotificationSettings = async () => {
+    const settings = await loadNotificationSettings();
+    setNotificationsEnabled(settings.enabled);
+    setFrequency(settings.config.notificationsPerDay);
+    const windowIdx = TIME_WINDOWS.findIndex(
+      w => w.start === settings.config.startTime && w.end === settings.config.endTime
+    );
+    setTimeWindow(windowIdx >= 0 ? windowIdx : 0);
+  };
 
   const loadQuote = () => {
     const deathQuotes = getDeathQuotes();
@@ -135,9 +146,16 @@ export default function AppScreen() {
   };
 
   const handleToggleNotifications = async () => {
+    const config = {
+      notificationsPerDay: frequency,
+      startTime: TIME_WINDOWS[timeWindow].start,
+      endTime: TIME_WINDOWS[timeWindow].end,
+    };
+
     if (notificationsEnabled) {
       await cancelAllNotifications();
       setNotificationsEnabled(false);
+      await saveNotificationSettings({ enabled: false, config });
       Alert.alert('Disabled', 'Notifications disabled.');
     } else {
       const hasPermission = await requestNotificationPermissions();
@@ -145,12 +163,9 @@ export default function AppScreen() {
         Alert.alert('Permission Required', 'Please enable notifications in system settings.');
         return;
       }
-      await scheduleDailyNotifications({
-        notificationsPerDay: frequency,
-        startTime: TIME_WINDOWS[timeWindow].start,
-        endTime: TIME_WINDOWS[timeWindow].end,
-      });
+      await scheduleDailyNotifications(config);
       setNotificationsEnabled(true);
+      await saveNotificationSettings({ enabled: true, config });
       Alert.alert('Success', `${frequency} daily notifications scheduled!`);
     }
   };
@@ -306,9 +321,17 @@ export default function AppScreen() {
               borderWidth: 1,
               borderColor: theme.border,
             }}
-            onPress={() => {
-              cancelAllNotifications();
+            onPress={async () => {
+              await cancelAllNotifications();
               setNotificationsEnabled(false);
+              await saveNotificationSettings({
+                enabled: false,
+                config: {
+                  notificationsPerDay: frequency,
+                  startTime: TIME_WINDOWS[timeWindow].start,
+                  endTime: TIME_WINDOWS[timeWindow].end,
+                },
+              });
               Alert.alert('Reset', 'All notifications cancelled.');
             }}
           >

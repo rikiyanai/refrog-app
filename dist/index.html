@@ -305,7 +305,7 @@
           <span>Notifications</span>
           <button class="mini-btn" id="notif-toggle-btn">OFF</button>
         </div>
-        <p class="hint">Web build stores preference only (no push scheduling).</p>
+        <p class="hint" id="notif-hint">Fires while this tab is open.</p>
 
         <p class="section-title">Frequency</p>
         <div class="pill-row">
@@ -763,6 +763,135 @@
       state.settings = { ...DEFAULT_SETTINGS, ...loadFromStorage(STORAGE_KEYS.settings, {}) };
     }
 
+    // --- Web Notification Engine ---
+
+    const NOTIF_SCHEDULE_KEY = "refrog_notif_schedule_v1";
+
+    const TIME_WINDOW_MAP = {
+      "8-8": { startH: 8, startM: 0, endH: 20, endM: 0 },
+      "9-9": { startH: 9, startM: 0, endH: 21, endM: 0 }
+    };
+
+    const activeTimeouts = [];
+
+    function clearNotifTimeouts() {
+      activeTimeouts.forEach(id => clearTimeout(id));
+      activeTimeouts.length = 0;
+    }
+
+    function generateTodaySchedule(settings) {
+      const win = TIME_WINDOW_MAP[settings.timeWindow] || TIME_WINDOW_MAP["8-8"];
+      const now = new Date();
+      const d = now;
+      const startMs = new Date(d.getFullYear(), d.getMonth(), d.getDate(), win.startH, win.startM).getTime();
+      const endMs   = new Date(d.getFullYear(), d.getMonth(), d.getDate(), win.endH,   win.endM).getTime();
+
+      const n = settings.notificationsPerDay;
+      const used = new Set();
+      const times = [];
+      let attempts = 0;
+
+      while (times.length < n && attempts < 300) {
+        const t = Math.floor(Math.random() * (endMs - startMs)) + startMs;
+        const key = Math.floor(t / 60000);
+        if (!used.has(key)) {
+          used.add(key);
+          times.push(t);
+        }
+        attempts++;
+      }
+
+      return times.sort((a, b) => a - b);
+    }
+
+    function armTimeouts(times) {
+      clearNotifTimeouts();
+      const quotes = getAvailableQuotes();
+      if (!quotes.length) return;
+
+      times.forEach(ts => {
+        const delay = ts - Date.now();
+        if (delay <= 0) return;
+
+        const id = setTimeout(() => {
+          if (Notification.permission !== "granted") return;
+          const quote = quotes[Math.floor(Math.random() * quotes.length)];
+          new Notification("ReFrog 🐸", {
+            body: `"${quote.text.length > 120 ? quote.text.substring(0, 120) + "…" : quote.text}" — ${quote.author}`,
+            tag: `refrog-${ts}`,
+            silent: false
+          });
+        }, delay);
+
+        activeTimeouts.push(id);
+      });
+    }
+
+    async function enableBrowserNotifications() {
+      if (!("Notification" in window)) {
+        alert("This browser doesn't support notifications.");
+        return false;
+      }
+
+      let permission = Notification.permission;
+      if (permission === "default") {
+        permission = await Notification.requestPermission();
+      }
+      if (permission !== "granted") {
+        document.getElementById("notif-hint").textContent =
+          "Permission denied — enable in browser settings.";
+        return false;
+      }
+
+      const times = generateTodaySchedule(state.settings);
+      localStorage.setItem(NOTIF_SCHEDULE_KEY, JSON.stringify({ date: new Date().toDateString(), times }));
+      armTimeouts(times);
+      updateNotifHint(times);
+      return true;
+    }
+
+    function disableBrowserNotifications() {
+      clearNotifTimeouts();
+      localStorage.removeItem(NOTIF_SCHEDULE_KEY);
+      document.getElementById("notif-hint").textContent = "Fires while this tab is open.";
+    }
+
+    function updateNotifHint(times) {
+      const future = times.filter(t => t > Date.now());
+      const hint = document.getElementById("notif-hint");
+      if (!future.length) {
+        hint.textContent = "All done for today — reload tomorrow.";
+        return;
+      }
+      const next = new Date(future[0]);
+      const h = next.getHours().toString().padStart(2, "0");
+      const m = next.getMinutes().toString().padStart(2, "0");
+      hint.textContent = `${future.length} scheduled today. Next: ${h}:${m}. (Tab must stay open.)`;
+    }
+
+    function restoreNotificationsOnLoad() {
+      if (!state.settings.notificationsEnabled) return;
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+      try {
+        const stored = JSON.parse(localStorage.getItem(NOTIF_SCHEDULE_KEY) || "null");
+        const today = new Date().toDateString();
+
+        if (stored && stored.date === today && Array.isArray(stored.times)) {
+          armTimeouts(stored.times);
+          updateNotifHint(stored.times);
+        } else {
+          // New day or missing — generate fresh schedule
+          const times = generateTodaySchedule(state.settings);
+          localStorage.setItem(NOTIF_SCHEDULE_KEY, JSON.stringify({ date: today, times }));
+          armTimeouts(times);
+          updateNotifHint(times);
+        }
+      } catch (e) {}
+    }
+
+    // --- End Web Notification Engine ---
+
     function bindEvents() {
       document.getElementById("new-quote-btn").addEventListener("click", loadQuote);
       document.getElementById("favorite-btn").addEventListener("click", toggleFavorite);
@@ -773,10 +902,19 @@
       document.getElementById("reset-dislikes-btn").addEventListener("click", resetDislikes);
       document.getElementById("reset-all-btn").addEventListener("click", resetAllData);
 
-      document.getElementById("notif-toggle-btn").addEventListener("click", () => {
-        state.settings.notificationsEnabled = !state.settings.notificationsEnabled;
-        saveAllState();
-        renderSettingsPage();
+      document.getElementById("notif-toggle-btn").addEventListener("click", async () => {
+        if (state.settings.notificationsEnabled) {
+          disableBrowserNotifications();
+          state.settings.notificationsEnabled = false;
+          saveAllState();
+          renderSettingsPage();
+        } else {
+          const ok = await enableBrowserNotifications();
+          if (!ok) return;
+          state.settings.notificationsEnabled = true;
+          saveAllState();
+          renderSettingsPage();
+        }
       });
 
       document.querySelectorAll(".frequency-pill").forEach((button) => {
@@ -828,6 +966,7 @@
       renderSettingsPage();
       loadQuote();
       showPage("home");
+      restoreNotificationsOnLoad();
     }
 
     init();
