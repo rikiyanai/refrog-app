@@ -1515,6 +1515,664 @@ export const QUOTES: Quote[] = [
     category: 'philosophy',
     timeOfDay: 'any'
   },
+  {
+    id: '216',
+    text: "Because I could not stop for Death – He kindly stopped for me –",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '217',
+    text: "I heard a Fly buzz – when I died – The Stillness in the Room Was like the Stillness in the Air –",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '218',
+    text: "The Bustle in a House The Morning after Death Is solemnest of industries Enacted upon Earth –",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '219',
+    text: "The grave my little cottage is, Where keeping house for thee, I make my parlor orderly.",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '220',
+    text: "I've seen a Dying Eye Run round and round a Room – In search of Something –",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '221',
+    text: "The Day she died Nature sat around In silence – in a solemn trance.",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '222',
+    text: "Death is like the insect Menacing the tree, Competent to kill, But impotent to be.",
+    author: 'Emily Dickinson',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '223',
+    text: "The darkness of death is like the evening twilight; it makes all objects appear more lovely.",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '224',
+    text: "After the first death, there is no other.",
+    author: 'Dylan Thomas',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '225',
+    text: "Till Death – is narrow Way – He pioneered the Door – that lead to Life –",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '226',
+    text: "Do not go gentle into that good night. Rage, rage against the dying of the light.",
+    author: 'Dylan Thomas',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '227',
+    text: "Though lovers be lost love shall not; And death shall have no dominion.",
+    author: 'Dylan Thomas',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '228',
+    text: "And death shall have no dominion. Dead men naked they shall be one.",
+    author: 'Dylan Thomas',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '229',
+    text: "The force that through the green fuse drives the flower drives my age.",
+    author: 'Dylan Thomas',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '230',
+    text: "Death smiles at us all, all a man can do is smile back.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '231',
+    text: "You could leave life right now. Let that determine what you do and say and think.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '232',
+    text: "Think of yourself as dead. You have lived your life. Now, take what's left and live it properly.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '233',
+    text: "It is not death that a man should fear, but he should fear never beginning to live.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '234',
+    text: "Don't behave as if you are destined to live forever. Death hangs over you.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '235',
+    text: "We die every day, for every day some part of life is taken from us.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '236',
+    text: "Just where death is expecting you is something we cannot know.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '237',
+    text: "That man lives badly who does not know how to die well.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '238',
+    text: "No evil is honorable: but death is honorable; therefore, death is not evil.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '239',
+    text: "Loss is nothing else but change, and change is Nature's delight.",
+    author: 'Marcus Aurelius',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '240',
+    text: "Let us prepare our minds as if we'd come to the very end of life.",
+    author: 'Seneca',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '241',
+    text: "We die only once, and the death must come when it comes.",
+    author: 'Seneca',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '242',
+    text: "It is not that we have a short time to live, but that we waste a lot of it.",
+    author: 'Seneca',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '243',
+    text: "As is a tale, so is life: not how long it is, but how good it is, is what matters.",
+    author: 'Seneca',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '244',
+    text: "True happiness is to enjoy the present, without anxious fear of the future.",
+    author: 'Seneca',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '245',
+    text: "Begin at once to live, and count each separate day as a separate life.",
+    author: 'Seneca',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '246',
+    text: "We are such stuff as dreams are made on, and our little life is rounded with a sleep.",
+    author: 'William Shakespeare',
+    category: 'poetry',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '247',
+    text: "Tomorrow, and tomorrow, and tomorrow, creeps in this petty pace from day to day.",
+    author: 'William Shakespeare',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '248',
+    text: "Cowards die many times before their deaths; The valiant never taste of death but once.",
+    author: 'William Shakespeare',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '249',
+    text: "Don't grieve. Anything you lose comes round in another form.",
+    author: 'Rumi',
+    category: 'spiritual',
+    timeOfDay: 'any'
+  },
+  {
+    id: '250',
+    text: "Be like a tree and let the dead leaves drop.",
+    author: 'Rumi',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '251',
+    text: "The wound is the place where the Light enters you.",
+    author: 'Rumi',
+    category: 'spiritual',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '252',
+    text: "I do not fear death. I had been dead for billions and billions of years before I was born.",
+    author: 'Mark Twain',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '253',
+    text: "The fear of death follows from the fear of life. A man who lives fully is prepared to die.",
+    author: 'Mark Twain',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '254',
+    text: "The two most important days in your life are the day you are born and the day you find out why.",
+    author: 'Mark Twain',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '255',
+    text: "When you are dead, you are dead. Make room for the living.",
+    author: 'Mark Twain',
+    category: 'humor',
+    timeOfDay: 'any'
+  },
+  {
+    id: '256',
+    text: "Twenty years from now you will be more disappointed by the things you didn't do.",
+    author: 'Mark Twain',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '257',
+    text: "I went to the woods because I wished to live deliberately.",
+    author: 'Henry David Thoreau',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '258',
+    text: "Most men lead lives of quiet desperation.",
+    author: 'Henry David Thoreau',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '259',
+    text: "The price of anything is the amount of life you exchange for it.",
+    author: 'Henry David Thoreau',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '260',
+    text: "As if you could kill time without injuring eternity.",
+    author: 'Henry David Thoreau',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '261',
+    text: "The mass of men lead lives of quiet desperation and go to the grave with the song still in them.",
+    author: 'Henry David Thoreau',
+    category: 'philosophy',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '262',
+    text: "Live each season as it passes; breathe the air, drink the drink, taste the fruit.",
+    author: 'Henry David Thoreau',
+    category: 'spiritual',
+    timeOfDay: 'any'
+  },
+  {
+    id: '263',
+    text: "To live is the rarest thing in the world. Most people exist, that is all.",
+    author: 'Oscar Wilde',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '264',
+    text: "We are all in the gutter, but some of us are looking at the stars.",
+    author: 'Oscar Wilde',
+    category: 'philosophy',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '265',
+    text: "He who has a why to live can bear almost any how.",
+    author: 'Friedrich Nietzsche',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '266',
+    text: "That which does not kill me makes me stronger.",
+    author: 'Friedrich Nietzsche',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '267',
+    text: "Is life not a thousand times too short for us to bore ourselves?",
+    author: 'Friedrich Nietzsche',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '268',
+    text: "The first half of life is devoted to forming a healthy ego, the second half is going inward.",
+    author: 'Carl Jung',
+    category: 'philosophy',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '269',
+    text: "I am not what happened to me, I am what I choose to become.",
+    author: 'Carl Jung',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '270',
+    text: "Knowing your own darkness is the best method for dealing with the darknesses of other people.",
+    author: 'Carl Jung',
+    category: 'philosophy',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '271',
+    text: "We cannot change anything unless we accept it.",
+    author: 'Carl Jung',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '272',
+    text: "Write it on your heart that every day is the last day of the world.",
+    author: 'Ralph Waldo Emerson',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '273',
+    text: "To leave the world a bit better... to know even one life has breathed easier.",
+    author: 'Ralph Waldo Emerson',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '274',
+    text: "This is the true joy of life: being used for a purpose recognized by yourself as a mighty one.",
+    author: 'George Bernard Shaw',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '275',
+    text: "There are two tragedies in life. One is to lose your heart's desire. The other is to gain it.",
+    author: 'George Bernard Shaw',
+    category: 'philosophy',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '276',
+    text: "A life spent making mistakes is not only more honorable but more useful than a life spent doing nothing.",
+    author: 'George Bernard Shaw',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '277',
+    text: "It is said that your life flashes before your eyes just before you die. That is true, it's called Life.",
+    author: 'Terry Pratchett',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '278',
+    text: "In the end, the only questions that matter are these: What do worlds live or die for, and what do people live or die for?",
+    author: 'Terry Pratchett',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '279',
+    text: "All this talk of death! I'm not dead! I just have something growing inside me.",
+    author: 'Terry Pratchett',
+    category: 'humor',
+    timeOfDay: 'any'
+  },
+  {
+    id: '280',
+    text: "Take it from me, the world is built of people who got up one day and did something.",
+    author: 'Terry Pratchett',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '281',
+    text: "There are times in life when people must be brave.",
+    author: 'Terry Pratchett',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '282',
+    text: "Life should not be a journey to the grave with the intention of arriving safely in a pretty body.",
+    author: 'Hunter S. Thompson',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '283',
+    text: "We are all alone, born alone, die alone, and—in spite of True Romance.",
+    author: 'Hunter S. Thompson',
+    category: 'philosophy',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '284',
+    text: "Too weird to live, too rare to die.",
+    author: 'Hunter S. Thompson',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '285',
+    text: "Buy the ticket, take the ride.",
+    author: 'Hunter S. Thompson',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '286',
+    text: "A time to be born, and a time to die; a time to plant, and a time to pluck up that which is planted.",
+    author: 'Bible - Ecclesiastes',
+    category: 'spiritual',
+    timeOfDay: 'any'
+  },
+  {
+    id: '287',
+    text: "He has made everything beautiful in its time.",
+    author: 'Bible - Ecclesiastes',
+    category: 'spiritual',
+    timeOfDay: 'any'
+  },
+  {
+    id: '288',
+    text: "Yea, though I walk through the valley of the shadow of death, I will fear no evil.",
+    author: 'Bible - Psalm 23',
+    category: 'spiritual',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '289',
+    text: "Precious in the sight of the LORD is the death of his saints.",
+    author: 'Bible - Psalm 116',
+    category: 'spiritual',
+    timeOfDay: 'any'
+  },
+  {
+    id: '290',
+    text: "For to me to live is Christ, and to die is gain.",
+    author: 'Bible - Philippians',
+    category: 'spiritual',
+    timeOfDay: 'any'
+  },
+  {
+    id: '291',
+    text: "And as it is appointed for men to die once, but after this the judgment.",
+    author: 'Bible - Hebrews',
+    category: 'spiritual',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '292',
+    text: "The fear of death is the most foolish fear of all.",
+    author: 'Albert Camus',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '293',
+    text: "In the depth of winter, I finally learned that within me there lay an invincible summer.",
+    author: 'Albert Camus',
+    category: 'poetry',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '294',
+    text: "Live to the point of tears.",
+    author: 'Albert Camus',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '295',
+    text: "I rebel; therefore I exist.",
+    author: 'Albert Camus',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '296',
+    text: "We continue to breathe deeply while others are sleeping.",
+    author: 'Albert Camus',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '297',
+    text: "Without work, all life goes rotten.",
+    author: 'Albert Camus',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '298',
+    text: "I know of only one duty, and that is to love.",
+    author: 'Albert Camus',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '299',
+    text: "There is no sun without shadow.",
+    author: 'Albert Camus',
+    category: 'poetry',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '300',
+    text: "Tell me, what is it you plan to do with your one wild and precious life?",
+    author: 'Mary Oliver',
+    category: 'poetry',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '301',
+    text: "Someone I loved once gave me a box full of darkness. It took me years to understand that this, too, was a gift.",
+    author: 'Mary Oliver',
+    category: 'poetry',
+    timeOfDay: 'evening'
+  },
+  {
+    id: '302',
+    text: "You do not have to be good. You do not have to walk on your knees.",
+    author: 'Mary Oliver',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '303',
+    text: "Wild geese are calling to you, over and over announcing your place in the family of things.",
+    author: 'Mary Oliver',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '304',
+    text: "There are moments that cry out to be fulfilled.",
+    author: 'Mary Oliver',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '305',
+    text: "I do not want to be a passenger in someone else's life.",
+    author: 'Mary Oliver',
+    category: 'philosophy',
+    timeOfDay: 'morning'
+  },
+  {
+    id: '306',
+    text: "Pay attention. Be astonished. Tell about it.",
+    author: 'Mary Oliver',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '307',
+    text: "Surgeons must be very careful – Just to put a Knife – Under one – take a Life –",
+    author: 'Emily Dickinson',
+    category: 'poetry',
+    timeOfDay: 'any'
+  },
+  {
+    id: '308',
+    text: "Et tu, Brute? Then fall, Caesar.",
+    author: 'William Shakespeare',
+    category: 'philosophy',
+    timeOfDay: 'any'
+  },
+  {
+    id: '309',
+    text: "He who is destined to be hanged must not be drowned.",
+    author: 'Hunter S. Thompson',
+    category: 'humor',
+    timeOfDay: 'any'
+  },
 ];
 
 export const CATEGORIES: QuoteCategory[] = ['philosophy', 'poetry', 'humor', 'spiritual', 'science'];
